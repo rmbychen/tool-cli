@@ -1,5 +1,5 @@
 {
-  "name": "core",
+  "name": "@cl/core",
   "version": "1.0.0",
   "description": "> TODO: description",
   "author": "chenlei <xxxxx@163.com>",
@@ -28,5 +28,10 @@
   "devDependencies": {
     "import-local": "^3.1.0",
     "npmlog": "^6.0.1"
+  },
+  "dependencies": {
+    "@cl/log": "file:../../log",
+    "colors": "^1.4.0",
+    "semver": "^7.3.6"
   }
 }
