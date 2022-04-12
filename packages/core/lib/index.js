@@ -1,6 +1,7 @@
 'use strict';
 
 module.exports = core;
+const path = require('path')
 // require支持加载.json,.js,.node文件,其它任何文件当做.js解析
 const pkg = require('../package.json')
 const log = require('@cl/log')
@@ -8,8 +9,9 @@ const constant = require('./const')
 const semver = require('semver')
 const colors = require('colors/safe')
 const os = require('os')
-// const minimist = require('minimist')
-const pathExist = require('path-exists').sync
+const minimist = require('minimist');
+
+// const pathExist = require('path-exists').sync
 // import pkg from '../package.json'
 // import constant from './const'
 // import log from '@cl/log'
@@ -18,15 +20,17 @@ const pathExist = require('path-exists').sync
 // import os from 'os'
 // import { pathExists } from 'path-exists'
 
-
+let args, config
 
 function core() {
     try {
         checkPkgVersion()
         checkNodeVersion()
         // checkRoot()
-        checkUserHome()
+        // checkUserHome()
         checkInputArgs()
+        log.verbose('debug', '开启debug模式会打印这些话')
+        checkEnv()
     } catch (e) {
         log.error(e.message)
     }
@@ -68,7 +72,8 @@ function checkRoot() {
  */
 function checkUserHome () {
     const userHome = os.homedir()
-    if(userHome || !pathExist(userHome)) {
+    const exist = pathExists(userHome)
+    if(userHome || !exist) {
         throw new Error(colors.red('当前用户主目录不存在'))
     }
 }
@@ -76,4 +81,55 @@ function checkUserHome () {
 /**
  * 检查入参，开启调试模式
  */
-function checkInputArgs () {}
+function checkInputArgs () {
+    const minimist = require('minimist')
+    args = minimist(process.argv.slice(2))
+    process.env.LOG_LEVEL = args.debug ? 'verbose' : 'info'
+    // 改了才会生效， 不然入参检查需要在log引入之前执行
+    log.level = process.env.LOG_LEVEL
+    console.log('args', args)
+}
+
+/**
+ * 检查环境变量，可以将一些账号密码敏感信息保存在本地，而不用集中在代码当中
+ */
+function checkEnv () {
+    // 从.env中加载环境变量
+    const dotEnv = require('dotenv')
+    const dotEnvPath = path.resolve(os.homedir(), '.env')
+    // if(pathExists(dotEnvPath)) {
+    //     config = dotEnv.config({
+    //         path: dotEnvPath
+    //     })
+    // }
+    config = dotEnv.config({
+        path: dotEnvPath
+    })
+    // 默认是当前目录下的.env查找
+    // 放在env里的变量可以通过process.env.xxx找到
+    createDefaultConfig()
+    log.verbose('环境变量', process.env.CLI_HOME_PATH)
+}
+
+/**
+ * 创建默认的主目录home配置
+ * @returns
+ */
+function createDefaultConfig () {
+    const home = os.homedir()
+    const config = { home }
+    const cliHome = process.env.CLI_HOME
+    config['cliHome'] = path.resolve(home, cliHome || constant.DEFAULT_CLI_HOME)
+    process.env.CLI_HOME_PATH = config.cliHome
+}
+/**
+ * 检查是否需要更新版本
+ */
+function checkUpdateVersion () {
+    // 拿到当前版本号和模块名
+    const currentPkgVersion = pkg.version
+    const npmName = pkg.name
+    // 获取npm所有版本号
+    // 提取所有版本号，比对大于当前版本号的版本
+    // 获取最新版本
+}

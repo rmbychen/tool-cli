@@ -1,0 +1,16 @@
+0 silly argv {
+0 silly argv   _: [ 'add' ],
+0 silly argv   globs: [ 'packages/core' ],
+0 silly argv   lernaVersion: '4.0.0',
+0 silly argv   '$0': 'C:\\Users\\84078\\AppData\\Roaming\\npm\\node_modules\\lerna\\cli.js',
+0 silly argv   pkg: 'root-check'
+0 silly argv }
+1 notice cli v4.0.0
+2 verbose rootPath C:\chenlei\2022\project\tool-cli
+3 error FetchError: request to https://registry.npmjs.org/root-check failed, reason: connect ETIMEDOUT 104.16.24.35:443
+3 error     at ClientRequest.<anonymous> (C:\Users\84078\AppData\Roaming\npm\node_modules\lerna\node_modules\minipass-fetch\lib\index.js:110:14)
+3 error     at ClientRequest.emit (node:events:365:28)
+3 error     at TLSSocket.socketErrorListener (node:_http_client:447:9)
+3 error     at TLSSocket.emit (node:events:377:35)
+3 error     at emitErrorNT (node:internal/streams/destroy:193:8)
+3 error     at emitErrorCloseNT (node:internal/streams/destroy:158:3)
