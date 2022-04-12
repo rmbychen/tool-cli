@@ -7,11 +7,26 @@ const log = require('@cl/log')
 const constant = require('./const')
 const semver = require('semver')
 const colors = require('colors/safe')
+const os = require('os')
+// const minimist = require('minimist')
+const pathExist = require('path-exists').sync
+// import pkg from '../package.json'
+// import constant from './const'
+// import log from '@cl/log'
+// import semver from 'semver'
+// import colors from 'colors/safe'
+// import os from 'os'
+// import { pathExists } from 'path-exists'
+
+
 
 function core() {
     try {
         checkPkgVersion()
-         checkNodeVersion()
+        checkNodeVersion()
+        // checkRoot()
+        checkUserHome()
+        checkInputArgs()
     } catch (e) {
         log.error(e.message)
     }
@@ -39,3 +54,26 @@ function checkNodeVersion () {
 
 
 }
+
+/**
+ * 检查是否root启动,防止没有权限更改文件，需要进行降级
+ * 根据process.geteuid判断的
+ */
+function checkRoot() {
+    require('root-check')()
+}
+
+/**
+ * 检查用户主目录， 没有主目录很多缓存啥的没法做
+ */
+function checkUserHome () {
+    const userHome = os.homedir()
+    if(userHome || !pathExist(userHome)) {
+        throw new Error(colors.red('当前用户主目录不存在'))
+    }
+}
+
+/**
+ * 检查入参，开启调试模式
+ */
+function checkInputArgs () {}

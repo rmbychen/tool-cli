@@ -32,6 +32,8 @@
   "dependencies": {
     "@cl/log": "file:../../log",
     "colors": "^1.4.0",
+    "minimist": "^1.2.6",
+    "path-exists": "^5.0.0",
     "semver": "^7.3.6"
   }
 }
