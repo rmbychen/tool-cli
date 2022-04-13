@@ -11,7 +11,7 @@ const colors = require('colors/safe')
 const os = require('os')
 const minimist = require('minimist');
 
-// const pathExist = require('path-exists').sync
+const pathExist = require('path-exists').sync
 // import pkg from '../package.json'
 // import constant from './const'
 // import log from '@cl/log'
@@ -22,15 +22,16 @@ const minimist = require('minimist');
 
 let args, config
 
-function core() {
+async function core() {
     try {
         checkPkgVersion()
         checkNodeVersion()
         // checkRoot()
-        // checkUserHome()
+        checkUserHome()
         checkInputArgs()
         log.verbose('debug', '开启debug模式会打印这些话')
         checkEnv()
+        await checkUpdateVersion()
     } catch (e) {
         log.error(e.message)
     }
@@ -72,8 +73,8 @@ function checkRoot() {
  */
 function checkUserHome () {
     const userHome = os.homedir()
-    const exist = pathExists(userHome)
-    if(userHome || !exist) {
+    const exist = pathExist(userHome)
+    if(!userHome || !exist) {
         throw new Error(colors.red('当前用户主目录不存在'))
     }
 }
@@ -125,11 +126,13 @@ function createDefaultConfig () {
 /**
  * 检查是否需要更新版本
  */
-function checkUpdateVersion () {
+async function checkUpdateVersion () {
     // 拿到当前版本号和模块名
-    const currentPkgVersion = pkg.version
-    const npmName = pkg.name
+    const { name, version } = pkg
     // 获取npm所有版本号
+    const { getNpmInfo } = require('@cl/get-npm-info')
+    const result = await getNpmInfo(name)
+    console.log('data', result)
     // 提取所有版本号，比对大于当前版本号的版本
     // 获取最新版本
 }
