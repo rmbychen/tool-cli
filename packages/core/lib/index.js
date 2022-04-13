@@ -26,7 +26,7 @@ async function core() {
     try {
         checkPkgVersion()
         checkNodeVersion()
-        // checkRoot()
+        checkRoot()
         checkUserHome()
         checkInputArgs()
         log.verbose('debug', '开启debug模式会打印这些话')
@@ -98,14 +98,11 @@ function checkEnv () {
     // 从.env中加载环境变量
     const dotEnv = require('dotenv')
     const dotEnvPath = path.resolve(os.homedir(), '.env')
-    // if(pathExists(dotEnvPath)) {
-    //     config = dotEnv.config({
-    //         path: dotEnvPath
-    //     })
-    // }
-    config = dotEnv.config({
-        path: dotEnvPath
-    })
+    if(pathExist(dotEnvPath)) {
+        config = dotEnv.config({
+            path: dotEnvPath
+        })
+    }
     // 默认是当前目录下的.env查找
     // 放在env里的变量可以通过process.env.xxx找到
     createDefaultConfig()
@@ -129,10 +126,11 @@ function createDefaultConfig () {
 async function checkUpdateVersion () {
     // 拿到当前版本号和模块名
     const { name, version } = pkg
-    // 获取npm所有版本号
-    const { getNpmInfo } = require('@cl/get-npm-info')
-    const result = await getNpmInfo(name)
-    console.log('data', result)
-    // 提取所有版本号，比对大于当前版本号的版本
-    // 获取最新版本
+    // 获取npm上最新的版本号
+    const { getNpmLatestVersion } = require('@cl/get-npm-info')
+    const latestVersion = await getNpmLatestVersion(version, name)
+    if(latestVersion && semver.gt(latestVersion, version)){
+        log.warn(colors.yellow('更新提示', `脚手架有最新的版本：${latestVersion}, 
+        请手动更新：npm install -g ${name}`))
+    }
 }
