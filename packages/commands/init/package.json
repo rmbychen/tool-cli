@@ -1,11 +1,11 @@
 {
-  "name": "@cl/commands",
-  "version": "0.0.0",
+  "name": "@cl/init",
+  "version": "1.0.0",
   "description": "> TODO: description",
   "author": "chenlei <xxxxx@163.com>",
   "homepage": "https://github.com/rmbychen/tool-cli#readme",
   "license": "ISC",
-  "main": "lib/commands.js",
+  "main": "lib/index.js",
   "directories": {
     "lib": "lib",
     "test": "__tests__"
@@ -23,7 +23,5 @@
   "bugs": {
     "url": "https://github.com/rmbychen/tool-cli/issues"
   },
-  "dependencies": {
-    "dotenv": "^16.0.0"
-  }
+  "dependencies": {}
 }

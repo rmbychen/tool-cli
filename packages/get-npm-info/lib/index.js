@@ -25,8 +25,8 @@ function getNpmInfo(name, registry) {
 
 /**
  * 获取默认的仓库地址
- * @param {*} isOrigin 
- * @returns 
+ * @param {*} isOrigin
+ * @returns
  */
 function getDefaultRegistry (isOrigin = false) {
     if(isOrigin) {
