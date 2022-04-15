@@ -5,35 +5,69 @@ const path = require('path')
 // require支持加载.json,.js,.node文件,其它任何文件当做.js解析
 const pkg = require('../package.json')
 const log = require('@cl/log')
+const init = require('@cl/init')
 const constant = require('./const')
 const semver = require('semver')
 const colors = require('colors/safe')
 const os = require('os')
-const minimist = require('minimist');
-
+const commander = require('commander')
 const pathExist = require('path-exists').sync
-// import pkg from '../package.json'
-// import constant from './const'
-// import log from '@cl/log'
-// import semver from 'semver'
-// import colors from 'colors/safe'
-// import os from 'os'
-// import { pathExists } from 'path-exists'
+
 
 let args, config
+const program = new commander.Command()
 
 async function core() {
     try {
+        registryCommand()
         checkPkgVersion()
         checkNodeVersion()
         checkRoot()
         checkUserHome()
-        checkInputArgs()
+        // checkInputArgs()
         log.verbose('debug', '开启debug模式会打印这些话')
         checkEnv()
         await checkUpdateVersion()
     } catch (e) {
         log.error(e.message)
+    }
+}
+
+/**
+ * 脚手架命令初始化
+ */
+function registryCommand() {
+    program
+            .name(Object.keys(pkg.bin)[0])
+            .usage('<command> [options]')
+            .option('-d, --debug', "是否开启调试模式", false)
+            .version(pkg.version)
+
+    // 命令注册
+    program
+            .command('init [projectName]')
+            .option('-f, --force', "是否强制初始化项目", false)
+            .action(init)
+
+    // 设置开启调试模式
+    program.on('option:debug', () => {
+        const options = program.opts()
+        process.env.LOG_LEVEL = options.debug ? 'verbose' : 'info'
+        // 改了才会生效， 不然入参检查需要在log引入之前执行
+        log.level = process.env.LOG_LEVEL
+        log.verbose('debug', '已开启debug模式')
+    })
+
+    // 对未知命令监听
+    program.on('command:*', (obj) => {
+        const availableCommands = program.commands.map(cmd => cmd.name())
+        console.log(colors.red(`未知命令：${obj}, 可使用的命令：${availableCommands.join(',')}`))
+    })
+
+    program.parse(process.argv)
+
+    if(!program.args.length) {
+        program.outputHelp()
     }
 }
 
