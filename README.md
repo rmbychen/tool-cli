@@ -1,1 +1,7 @@
 # tool-cli
+
+```
+CLI_TARGET_PATH
+CLI_HOME_PATH
+CLI_HOME
+```

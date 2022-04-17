@@ -9,10 +9,9 @@ const { default: axios } = require('axios');
 function getNpmInfo(name, registry) {
     if(!name) { return }
     const registryUrl = registry || getDefaultRegistry()
-    const npmInfoUrl = urlJoin(registryUrl, name)
-    // const npmInfoUrl = urlJoin(registryUrl, 'semver')
+    // const npmInfoUrl = urlJoin(registryUrl, name)
+    const npmInfoUrl = urlJoin(registryUrl, 'semver')
     return axios.get(npmInfoUrl).then(res =>{
-        console.log('res', res)
         if(res.status === 200) {
             return res.data
         }

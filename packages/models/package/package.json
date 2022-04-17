@@ -1,6 +1,6 @@
 {
-  "name": "@cl/utils",
-  "version": "0.0.0",
+  "name": "@cl/package",
+  "version": "1.0.0",
   "description": "> TODO: description",
   "author": "chenlei <xxxxx@163.com>",
   "homepage": "https://github.com/rmbychen/tool-cli#readme",
@@ -13,6 +13,9 @@
   "files": [
     "lib"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/rmbychen/tool-cli.git"
@@ -22,8 +25,5 @@
   },
   "bugs": {
     "url": "https://github.com/rmbychen/tool-cli/issues"
-  },
-  "dependencies": {
-    "dotenv": "^16.0.0"
   }
 }

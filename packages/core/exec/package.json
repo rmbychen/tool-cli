@@ -1,5 +1,5 @@
 {
-  "name": "@cl/utils",
+  "name": "@cl/exec",
   "version": "0.0.0",
   "description": "> TODO: description",
   "author": "chenlei <xxxxx@163.com>",
@@ -23,7 +23,8 @@
   "bugs": {
     "url": "https://github.com/rmbychen/tool-cli/issues"
   },
-  "dependencies": {
-    "dotenv": "^16.0.0"
+  "devDependencies": {
+    "@cl/log": "file:../../log",
+    "@cl/package": "file:../../models/package"
   }
 }

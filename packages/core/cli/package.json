@@ -1,11 +1,13 @@
 {
-  "name": "@cl/utils",
-  "version": "0.0.0",
+  "name": "@cl/cli",
+  "version": "1.0.0",
   "description": "> TODO: description",
   "author": "chenlei <xxxxx@163.com>",
   "homepage": "https://github.com/rmbychen/tool-cli#readme",
   "license": "ISC",
-  "main": "lib/index.js",
+  "bin": {
+    "tool-cli": "./bin/index.js"
+  },
   "directories": {
     "lib": "lib",
     "test": "__tests__"
@@ -23,7 +25,20 @@
   "bugs": {
     "url": "https://github.com/rmbychen/tool-cli/issues"
   },
+  "devDependencies": {
+    "import-local": "^3.1.0",
+    "npmlog": "^6.0.1"
+  },
   "dependencies": {
-    "dotenv": "^16.0.0"
+    "@cl/get-npm-info": "file:../../get-npm-info",
+    "@cl/log": "file:../../../log",
+    "@cl/init": "file:../../../commands/init",
+    "@cl/exec": "file:../exec",
+    "colors": "^1.4.0",
+    "commander": "^9.1.0",
+    "dotenv": "^16.0.0",
+    "path-exists": "^4.0.0",
+    "root-check": "1.0.0",
+    "semver": "^7.3.6"
   }
 }
